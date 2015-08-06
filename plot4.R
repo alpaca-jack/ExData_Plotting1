@@ -17,7 +17,8 @@ ElecFread <- fread("household_power_consumption.txt",
                    sep=";", 
                    nrows=2075259, 
                    header="auto", 
-                   na.strings="NA")
+                   na.strings="NA",
+                   colClasses="character")
 ElecFreadFeb1 <- ElecFread[Date == "1/2/2007"]
 ElecFreadFeb2 <- ElecFread[Date == "2/2/2007"]
 Feb_data <- rbind(ElecFreadFeb1, ElecFreadFeb2)

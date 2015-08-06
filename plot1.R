@@ -17,7 +17,8 @@ ElecFread <- fread("household_power_consumption.txt",
                    sep=";", 
                    nrows=2075259, 
                    header="auto", 
-                   na.strings="NA")
+                   na.strings="NA",
+                   colClasses="character")
 ElecFreadFeb1 <- ElecFread[Date == "1/2/2007"]
 ElecFreadFeb2 <- ElecFread[Date == "2/2/2007"]
 Feb_data <- rbind(ElecFreadFeb1, ElecFreadFeb2)
@@ -25,16 +26,16 @@ Feb_data <- rbind(ElecFreadFeb1, ElecFreadFeb2)
 #Format Date/Time object
 DateTime <- as.POSIXct(paste(Feb_data$Date, Feb_data$Time), format= "%d/%m/%Y %H:%M:%S")
 
-#Subset measures data, remove "?"'s, make columns numeric
+#Subset measures data, make columns numeric
 keeps<- subset(Feb_data, select = -c(1,2))
 keeps[keeps == "\\?"] <-NA
 numeric_keeps <- transform(keeps, Global_active_power = as.numeric(Global_active_power),
-                    Global_reactive_power = as.numeric(Global_reactive_power),
-                    Voltage = as.numeric(Voltage),
-                    Global_intensity = as.numeric(Global_intensity),
-                    Sub_metering_1 = as.numeric(Sub_metering_1),
-                    Sub_metering_2 = as.numeric(Sub_metering_2),  
-                    Sub_metering_3 = as.numeric(Sub_metering_3))
+                           Global_reactive_power = as.numeric(Global_reactive_power),
+                           Voltage = as.numeric(Voltage),
+                           Global_intensity = as.numeric(Global_intensity),
+                           Sub_metering_1 = as.numeric(Sub_metering_1),
+                           Sub_metering_2 = as.numeric(Sub_metering_2),  
+                           Sub_metering_3 = as.numeric(Sub_metering_3))
 
 #Cleaned data combined
 Data_clean <- cbind(DateTime, numeric_keeps)
